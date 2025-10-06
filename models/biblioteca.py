@@ -1,3 +1,4 @@
+# 📦
 from . import libro as lib # importando modulo, [libro.py]
 from datetime import date
 
@@ -24,21 +25,11 @@ class Biblioteca:
             print(libro)
 
     # 🧩
-    def buscar_libro(self, buscar):
-        libros_encontrados = []
-        buscar = buscar.lower()
-        for libro in self.__libros:
-            comparar = {
-                libro.get_codigo(),
-                libro.get_nombre()
-            }
-            buscar_ = {
-                buscar
-            }
-
-            if comparar.issuperset(buscar_): # Verificar si el libro es super conjunto del dato del libro que se busca
-                libros_encontrados.append(libro)
-
+    def buscar_libro(self, texto):
+        libros_encontrados = [
+            libro for libro in self.__libros
+            if texto in libro.get_nombre() or texto in libro.get_codigo()
+        ]
         return libros_encontrados
     
     # 🧩
