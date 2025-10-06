@@ -1,0 +1,31 @@
+# 🐍 Archivos generados por Python
+__pycache__/
+*.py[cod]
+*.pyo
+
+# 📦 Entornos virtuales (si usas uno)
+venv/
+env/
+ENV/
+.venv/
+
+# 🗃️ Archivos de configuración de VS Code
+.vscode/
+
+# 🧪 Archivos de prueba o logs temporales
+*.log
+*.tmp
+
+# 📊 Archivos de base de datos o caché (si llegas a usarlos)
+*.sqlite3
+*.db
+
+# 📁 Archivos de sistema (Windows/macOS)
+Thumbs.db
+.DS_Store
+
+# Ignorar archivos generados automáticamente
+*.csv
+!data/libros.csv
+!data/reservas.csv
+!data/usuarios.csv
