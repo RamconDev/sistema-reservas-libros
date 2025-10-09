@@ -44,9 +44,16 @@ def agregar_nuevo_libro():
 def ver_usuarios():
     mi_biblioteca.ver_usuarios()
     
-# ✅👤🔎
-def buscar_usuario():
-    pass
+# ✅👤🔍
+def buscar_usuario() :
+    buscar = input("Ingresa Nombre o Identificacion del usuario: \n")
+    resultado = mi_biblioteca.buscar_usuario(buscar);
+
+    print(f"\nResultado Busqueda ({len(resultado)})\n")
+    for usuario in resultado:
+        print(f"{usuario}")
+
+    print("\n")
 
 # ✅👤➕
 def agregar_nuevo_usuario():
@@ -58,8 +65,63 @@ def agregar_nuevo_usuario():
         es_docente = int(input("0. Docente\n1 Estudiante\n"))
         
     mi_biblioteca.add_usuario(nombre,identificacion,es_docente)
+    
+# ✅📝👁️
+def ver_prestamos():
+    mi_biblioteca.ver_prestamos()
+        
+# ✅📝➕
+def hacer_prestamo():
+    resultado = []
+    while not resultado:
+        usuario = input("Buscar usuario por nombre o identificacion: ")
+        resultado = mi_biblioteca.buscar_usuario(usuario)
+        if not resultado:
+            print("* No hay resultados en la busqueda.\n")
+    
+    print("\nResultados de la busqueda:\n")
+    for usuario in resultado:
+        print(usuario)
+    
+    id = 0
+    while not id:
+        usuario = int(input("\nindique el id del usuario a hacer el prestamo: "))
+        for user in resultado:
+            if user.get_id() == usuario:
+                id = user.get_id()
+        if not id:
+            print("* no ha seleccionado un usuario de la busqueda.\n")
+            
+    
+    os.system("cls")
+    
+    resultado = []
+    while not resultado:
+        libro = input("Buscar libro por nombre o codigo: ")
+        resultado = mi_biblioteca.buscar_libro(libro)
+        if not resultado:
+            print("* No hay resultados en la busqueda.\n")
+    
+    print("\nResultados de la busqueda:\n")
+    for libro in resultado:
+        print(libro)
+    
+    id = 0
+    while not id:
+        libro = int(input("\nindique el id del libro a prestar: "))
+        for lib in resultado:
+            if lib.get_id() == libro:
+                id = lib.get_id()
+        if not id:
+            print("* no ha seleccionado un libro de la busqueda")
+    
+    mi_biblioteca.add_prestamo(libro,usuario)
+    
+    # print(f"Usuario id: {usuario} - Libro id: {libro}")
+    
+    os.system("pause")
 
-# ✅
+# ✅🚦 Encabezados para cada funcion
 def encabezado(r = 0):
     print("********** SISTEMA RESERVAS DE LIBROS ***************\n")
 
@@ -75,6 +137,10 @@ def encabezado(r = 0):
         print("** Agregar nuevo usuario **\n")
     elif r == 6:
         print("** Buscar usuario 🔎 **\n")
+    elif r == 7:
+        print("** Prestamo 📝 **\n")
+    elif r == 9:
+        print("** Ver Prestamos 📝 **\n")
 
 
 mi_biblioteca = bib.Biblioteca()
@@ -98,7 +164,7 @@ while True:
     print("\n\t*** PRESTAMOS 📝📅")
     print("\t7. Prestar Libro ➕")
     print("\t8. Devolver Libro ❌")
-    print("\t8. Ver libros prestados 📝🔍")
+    print("\t9. Ver libros prestados 📝🔍")
     
 
     respuesta = int(input(""))
@@ -117,6 +183,10 @@ while True:
         agregar_nuevo_usuario()
     elif respuesta == 6:
         buscar_usuario()
+    elif respuesta == 7:
+        hacer_prestamo()
+    elif respuesta == 9:
+        ver_prestamos()
     
     print("\n\n")
     os.system("pause")
