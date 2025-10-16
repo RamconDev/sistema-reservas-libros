@@ -97,7 +97,7 @@ class Biblioteca:
                     # Cambiar disponibilidad del libro a no disponible
                     self.__libros[libro_id - 1].disponibilidad = False
                     # Sumar al contador de libros prestados del usuario
-                    user.libros_prestados
+                    user.libros_prestados = True
                     return nuevo_prestamo
                 else:
                     return f"No se puede hacer el prestamo ha alcanzado el limite permitido ({user.libros_prestados})"
@@ -106,13 +106,13 @@ class Biblioteca:
     def remove_prestamo(self, prestamo_id):
         for prestamo in self.__prestamos:
             if (prestamo.id == prestamo_id) :
-                prestamo.set_f_devolucion(date.today())
-                user_id = prestamo.get_usuario_id()
-                libro_id = prestamo.get_libro()
+                prestamo.f_devolucion = date.today()
+                user_id = prestamo.usuario_id
+                libro_id = prestamo.libro_id
 
                 for user in self.__usuarios:
                     if user.id == user_id:
-                        user.set_libros_prestados(False)
+                        user.libros_prestados = False
 
                 for libro in self.__libros:
                     if libro.id == libro_id:
@@ -125,14 +125,14 @@ class Biblioteca:
     def ver_prestamos_user(self, id):
         prestamos_activos = []
         for prestamo in self.__prestamos:
-            if(prestamo.get_usuario_id() == id and not prestamo.get_f_devolucion()) :
+            if(prestamo.usuario_id == id and not prestamo.f_devolucion) :
                 prestamos_activos.append(prestamo)
         return prestamos_activos
 
     def ver_prestamos_activos(self):
         prestamos_activos = []
         for prestamo in self.__prestamos:
-            if not prestamo.get_f_devolucion():
+            if not prestamo.f_devolucion:
                 prestamos_activos.append(prestamo)
         return prestamos_activos
 
