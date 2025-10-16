@@ -34,7 +34,5 @@ class Libro:
     # 🧩    
     def get_disponibilidad(self):
         return self.__disponibilidad
-
-    # 🧩
     def set_disponibilidad(self, disponibilidad):
         self.__disponibilidad = disponibilidad

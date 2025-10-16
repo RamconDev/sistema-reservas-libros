@@ -31,11 +31,17 @@ class Biblioteca:
             print(libro)
 
     # 🧩📗
+    # def ver_libros_disponibles(self):
+    #     for libro in self.__libros:
+    #         if libro.get_disponibilidad():
+    #             print(libro)
+
+    # 🧩📗
     def buscar_libro(self, texto):
         # Lista por comprension
         libros_encontrados = [
             libro for libro in self.__libros
-            if texto in libro.get_nombre() or texto in libro.get_codigo()
+            if (texto in libro.get_nombre() or texto in libro.get_codigo()) and libro.get_disponibilidad()
         ]
         return libros_encontrados
     
@@ -76,17 +82,66 @@ class Biblioteca:
         self.__id_usuario += 1
         return self.__id_usuario
     
-    #
+    # 🧩📝➕
     def add_prestamo(self, libro_id, usuario_id):
-        today = date.today()
-        f_est_devolucion = today + timedelta(days=15)
-        nuevo_prestamo = pre.Prestamo(self.__nuevo_id_prestamo(), libro_id, usuario_id, f_est_devolucion)
-        
-        self.__prestamos.append(nuevo_prestamo)
-        
-    def ver_prestamos(self):
+        for user in self.__usuarios:
+            print(f"{user.get_id()}{type(user.get_id())} - {usuario_id}{type(usuario_id)}")
+            # Verificar si se puede prestar libro al usuario
+            if user.get_id() == usuario_id:
+                if user.get_libros_prestados() < user.get_max_prestamos():
+                    today = date.today()
+                    f_est_devolucion = today + timedelta(days=15)
+                    nuevo_prestamo = pre.Prestamo(self.__nuevo_id_prestamo(), libro_id, usuario_id, f_est_devolucion)
+                    
+                    # Agregar libro a registro de prestamos
+                    self.__prestamos.append(nuevo_prestamo)
+                    # Cambiar disponibilidad del libro a no disponible
+                    self.__libros[libro_id - 1].set_disponibilidad(False)
+                    # Sumar al contador de libros prestados del usuario
+                    user.set_libros_prestados()
+                    return nuevo_prestamo
+                else:
+                    return f"No se puede hacer el prestamo ha alcanzado el limite permitido ({user.get_libros_prestados()})"
+        return False
+    
+    def remove_prestamo(self, prestamo_id):
         for prestamo in self.__prestamos:
-            print(prestamo)
+            if (prestamo.get_id() == prestamo_id) :
+                prestamo.set_f_devolucion(date.today())
+                user_id = prestamo.get_usuario_id()
+                libro_id = prestamo.get_libro()
+
+                for user in self.__usuarios:
+                    if user.get_id() == user_id:
+                        user.set_libros_prestados(False)
+
+                for libro in self.__libros:
+                    if libro.get_id() == libro_id:
+                        libro.set_disponibilidad(True)
+
+                return prestamo
+        return False
+            
+        
+    def ver_prestamos_user(self, id):
+        prestamos_activos = []
+        for prestamo in self.__prestamos:
+            if(prestamo.get_usuario_id() == id and not prestamo.get_f_devolucion()) :
+                prestamos_activos.append(prestamo)
+        return prestamos_activos
+
+    def ver_prestamos_activos(self):
+        prestamos_activos = []
+        for prestamo in self.__prestamos:
+            if not prestamo.get_f_devolucion():
+                prestamos_activos.append(prestamo)
+        return prestamos_activos
+
+    def ver_prestamos(self):
+        prestamos_activos = []
+        for prestamo in self.__prestamos:
+            prestamos_activos.append(prestamo)
+        return prestamos_activos
             
     def __nuevo_id_prestamo(self):
         self.__id_prestamo += 1
