@@ -41,7 +41,7 @@ class Biblioteca:
         # Lista por comprension
         libros_encontrados = [
             libro for libro in self.__libros
-            if (texto in libro.get_nombre() or texto in libro.get_codigo()) and libro.get_disponibilidad()
+            if (texto in libro.nombre or texto in libro.codigo) and libro.disponibilidad
         ]
         return libros_encontrados
     
@@ -96,7 +96,7 @@ class Biblioteca:
                     # Agregar libro a registro de prestamos
                     self.__prestamos.append(nuevo_prestamo)
                     # Cambiar disponibilidad del libro a no disponible
-                    self.__libros[libro_id - 1].set_disponibilidad(False)
+                    self.__libros[libro_id - 1].disponibilidad = False
                     # Sumar al contador de libros prestados del usuario
                     user.set_libros_prestados()
                     return nuevo_prestamo
@@ -116,8 +116,8 @@ class Biblioteca:
                         user.set_libros_prestados(False)
 
                 for libro in self.__libros:
-                    if libro.get_id() == libro_id:
-                        libro.set_disponibilidad(True)
+                    if libro.id == libro_id:
+                        libro.disponibilidad = True
 
                 return prestamo
         return False

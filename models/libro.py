@@ -9,30 +9,33 @@ class Libro:
 
     # 🧩
     def __str__(self):
-        return f'Libro ("id": "{self.__id}", "codigo": "{self.__codigo}", "nombre": "{self.__nombre}", "disponibilidad": {self.__disponibilidad}, "f_registro": {self.__f_registro})'
+        return f'Libro [id: {self.__id}, codigo: {self.__codigo}, f_registro: {self.__f_registro}, disponibilidad: {str(self.__disponibilidad):5}, nombre: {self.__nombre}]'
     
     # 🧩
-    def get_id(self):
+    @property
+    def id(self):
         return self.__id
 
     # 🧩
-    def get_nombre(self):
+    @property
+    def nombre(self):
         return self.__nombre
-    
-    # 🧩
-    def set_nombre(self, nombre):
-        self.__nombre = nombre
+    @nombre.setter
+    def nombre(self, nuevo_nombre):
+        self.__nombre = nuevo_nombre.lower()
 
     # 🧩
-    def get_codigo(self):
+    @property
+    def codigo(self):
         return self.__codigo
+    @codigo.setter
+    def codigo(self, nuevo_codigo):
+        self.__codigo = nuevo_codigo.lower()
 
     # 🧩
-    def set_codigo(self, codigo):
-        self.__codigo = codigo
-
-    # 🧩    
-    def get_disponibilidad(self):
+    @property
+    def disponibilidad(self):
         return self.__disponibilidad
-    def set_disponibilidad(self, disponibilidad):
-        self.__disponibilidad = disponibilidad
+    @disponibilidad.setter
+    def disponibilidad(self, nueva_disponibilidad):
+        self.__disponibilidad = nueva_disponibilidad

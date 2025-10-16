@@ -45,7 +45,7 @@ def get_libro():
     while not libro:
         libro_input = int(input("\nindique el id del libro: "))
         for lib in resultado:
-            if lib.get_id() == libro_input:
+            if lib.id == libro_input:
                 libro = lib
         if not libro:
             print("* no ha seleccionado un elemento del resuldato de la busqueda.\n")
@@ -146,9 +146,8 @@ def hacer_prestamo():
     os.system("cls")
     
     libro = get_libro()
-    id_libro = libro.get_id()
     
-    respuesta = mi_biblioteca.add_prestamo(id_libro,id_user)
+    respuesta = mi_biblioteca.add_prestamo(libro.id,id_user)
 
     if respuesta:
         print(respuesta)
