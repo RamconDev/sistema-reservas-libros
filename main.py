@@ -67,7 +67,7 @@ def get_usuario():
     while not user:
         usuario_input = int(input("\nindique el id del usuario: "))
         for usuario in resultado:
-            if usuario.get_id() == usuario_input:
+            if usuario.id == usuario_input:
                 user = usuario
         if not user:
             print("* no ha seleccionado un elemento del resuldato de la busqueda.\n")
@@ -141,7 +141,7 @@ def ver_prestamos_activos():
 # ✅📝➕
 def hacer_prestamo():
     user = get_usuario()
-    id_user = user.get_id()
+    id_user = user.id
 
     os.system("cls")
     
@@ -160,7 +160,7 @@ def deshacer_prestamo() :
 
     os.system("cls")
 
-    prestamos_activos = mi_biblioteca.ver_prestamos_user(user.get_id())
+    prestamos_activos = mi_biblioteca.ver_prestamos_user(user.id)
 
     print(f"Usuario:\n{user}\n")
     print("* Lista de prestamos activos:\n")
@@ -176,9 +176,8 @@ def deshacer_prestamo() :
             os.system("cls")
 
             for prestamo in prestamos_activos:
-                if prestamo.get_id() == prestamo_id:
-                    prestamo_id = prestamo.get_id()
-                    respuesta = mi_biblioteca.remove_prestamo(prestamo_id)
+                if prestamo.id == prestamo_id:
+                    respuesta = mi_biblioteca.remove_prestamo(prestamo.id)
                     print(f"Devolicion Registrada:\n{respuesta}")
     else :
         print("* El usuario no tiene prestamos activos")

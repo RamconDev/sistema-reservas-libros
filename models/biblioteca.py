@@ -73,7 +73,7 @@ class Biblioteca:
     def buscar_usuario(self, texto):
         usuarios_encontrados = [
             usuario for usuario in self.__usuarios
-            if texto in usuario.get_nombre() or texto in usuario.get_identificacion()
+            if texto in usuario.nombre or texto in usuario.identificacion
         ]
         return usuarios_encontrados
     
@@ -85,10 +85,9 @@ class Biblioteca:
     # 🧩📝➕
     def add_prestamo(self, libro_id, usuario_id):
         for user in self.__usuarios:
-            print(f"{user.get_id()}{type(user.get_id())} - {usuario_id}{type(usuario_id)}")
             # Verificar si se puede prestar libro al usuario
-            if user.get_id() == usuario_id:
-                if user.get_libros_prestados() < user.get_max_prestamos():
+            if user.id == usuario_id:
+                if user.libros_prestados < user.max_prestamos:
                     today = date.today()
                     f_est_devolucion = today + timedelta(days=15)
                     nuevo_prestamo = pre.Prestamo(self.__nuevo_id_prestamo(), libro_id, usuario_id, f_est_devolucion)
@@ -98,21 +97,21 @@ class Biblioteca:
                     # Cambiar disponibilidad del libro a no disponible
                     self.__libros[libro_id - 1].disponibilidad = False
                     # Sumar al contador de libros prestados del usuario
-                    user.set_libros_prestados()
+                    user.libros_prestados
                     return nuevo_prestamo
                 else:
-                    return f"No se puede hacer el prestamo ha alcanzado el limite permitido ({user.get_libros_prestados()})"
+                    return f"No se puede hacer el prestamo ha alcanzado el limite permitido ({user.libros_prestados})"
         return False
     
     def remove_prestamo(self, prestamo_id):
         for prestamo in self.__prestamos:
-            if (prestamo.get_id() == prestamo_id) :
+            if (prestamo.id == prestamo_id) :
                 prestamo.set_f_devolucion(date.today())
                 user_id = prestamo.get_usuario_id()
                 libro_id = prestamo.get_libro()
 
                 for user in self.__usuarios:
-                    if user.get_id() == user_id:
+                    if user.id == user_id:
                         user.set_libros_prestados(False)
 
                 for libro in self.__libros:

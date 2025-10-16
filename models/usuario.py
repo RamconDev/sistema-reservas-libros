@@ -8,31 +8,39 @@ class Usuario:
         self.__libros_prestados = 0
 
     def __str__(self):
-        return f'Usuario ("id": {self.__id}, "nombre": {self.__nombre}, "identificacion": {self.__identificacion}, "libros_prestados": {self.__libros_prestados},"registro": {self.__f_registro})'
+        return f'{str("usuario"):11} [id: {self.__id}, libros_prestados: {self.__libros_prestados}, registro: {self.__f_registro}, identificacion: {str(self.__identificacion):9}, nombre: {self.__nombre}]'
 
     # 🧩
-    def get_id(self):
+    @property
+    def id(self):
         return self.__id
 
     # 🧩
-    def get_nombre(self):
+    @property
+    def nombre(self):
         return self.__nombre
-    def set_nombre(self, nombre):
-        self.__nombre = nombre.lower()
+    @nombre.setter
+    def nombre(self,nuevo_nombre):
+        self.__nombre = nuevo_nombre.lower()
 
     # 🧩
-    def get_identificacion(self):
+    @property
+    def identificacion(self):
         return self.__identificacion
-    def set_identificacion(self, identificacion):
-        self.__identificacion = identificacion.lower()
+    @identificacion.setter
+    def identificacion(self, nueva_identificacion):
+        self.__identificacion = nueva_identificacion
     
     # 🧩
-    def get_f_registro(self):
+    @property
+    def f_registro(self):
         return self.__f_registro
     
-    def get_libros_prestados(self):
+    @property
+    def libros_prestados(self):
         return self.__libros_prestados
-    def set_libros_prestados(self, se_presto = True):
+    @libros_prestados.setter
+    def libros_prestados(self, se_presto = True):
         if se_presto:
             self.__libros_prestados += 1
         else:
@@ -45,10 +53,14 @@ class Docente(Usuario):
         self.__max_libros = 8
     
     def __str__(self):
-        return f'Docente ("id": {self.get_id()}, "nombre": {self.get_nombre()}, "identificacion": {self.get_identificacion()}, "registro": {self.get_f_registro()}, "max_libros": {self.__max_libros}, "libros_prestados": {self.get_libros_prestados()})'
+        return f'{str("Docente"):11} [id: {self.id}, registro: {self.f_registro}, max_libros: {self.__max_libros}, libros_prestados: {self.libros_prestados}, identificacion: {self.identificacion}, nombre: {self.nombre}]'
     
-    def get_max_prestamos(self):
+    @property
+    def max_prestamos(self):
         return self.__max_libros
+    @max_prestamos.setter
+    def max_prestamos(self, nuevo_max_libros):
+        self.__max_libros = nuevo_max_libros
 
 # 🏛️
 class Estudiante(Usuario):
@@ -57,7 +69,11 @@ class Estudiante(Usuario):
         self.__max_libros = 3
 
     def __str__(self):
-        return f'Estudiante ("id": {self.get_id()}, "nombre": {self.get_nombre()}, "identificacion": {self.get_identificacion()}, "registro": {self.get_f_registro()}, "max_libros": {self.__max_libros}, "libros_prestados": {self.get_libros_prestados()})'
+        return f'{str("Estudiante"):11} [id: {self.id}, registro: {self.f_registro}, max_libros: {self.__max_libros}, libros_prestados: {self.libros_prestados}, identificacion: {self.identificacion}, nombre: {self.nombre}]'
     
-    def get_max_prestamos(self):
+    @property
+    def max_prestamos(self):
         return self.__max_libros
+    @max_prestamos.setter
+    def max_prestamos(self, nuevo_max_libros):
+        self.__max_libros = nuevo_max_libros
