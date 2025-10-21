@@ -27,8 +27,9 @@ class Biblioteca:
 
     # 🧩📗
     def ver_libros(self):
-        for libro in self.__libros:
-            print(libro)
+        return self.__libros
+        # for libro in self.__libros:
+        #     print(libro)
 
     # 🧩📗
     # def ver_libros_disponibles(self):
@@ -59,6 +60,8 @@ class Biblioteca:
             nuevo_usuario = us.Docente(id,nombre,identificacion, date.today())
         elif tipo == 1:
             nuevo_usuario = us.Estudiante(id,nombre,identificacion, date.today())
+        else:
+            raise TypeError("El tipo de usuario a registrar no se reconoce")
             
         self.__usuarios.append(nuevo_usuario)
         
@@ -66,8 +69,7 @@ class Biblioteca:
         
     # 🧩👤
     def ver_usuarios(self):
-        for usuario in self.__usuarios:
-            print(usuario)
+        return self.__usuarios
             
     # 🧩👤    
     def buscar_usuario(self, texto):
@@ -95,7 +97,8 @@ class Biblioteca:
                     # Agregar libro a registro de prestamos
                     self.__prestamos.append(nuevo_prestamo)
                     # Cambiar disponibilidad del libro a no disponible
-                    self.__libros[libro_id - 1].disponibilidad = False
+                    libro = next((lib for lib in self.__libros if lib.id == libro_id), None)
+                    libro.disponibilidad = False
                     # Sumar al contador de libros prestados del usuario
                     user.libros_prestados = True
                     return nuevo_prestamo
@@ -137,10 +140,10 @@ class Biblioteca:
         return prestamos_activos
 
     def ver_prestamos(self):
-        prestamos_activos = []
+        prestamos = []
         for prestamo in self.__prestamos:
-            prestamos_activos.append(prestamo)
-        return prestamos_activos
+            prestamos.append(prestamo)
+        return prestamos
             
     def __nuevo_id_prestamo(self):
         self.__id_prestamo += 1

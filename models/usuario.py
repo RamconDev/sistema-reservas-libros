@@ -41,10 +41,7 @@ class Usuario:
         return self.__libros_prestados
     @libros_prestados.setter
     def libros_prestados(self, se_presto = True):
-        if se_presto:
-            self.__libros_prestados += 1
-        else:
-            self.__libros_prestados -= 1
+        self.__libros_prestados += 1 if se_presto else -1 #VERIFICAR QUE FUNCIONA!
 
 # 🏛️
 class Docente(Usuario):

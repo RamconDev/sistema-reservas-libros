@@ -22,6 +22,7 @@ def cargar_usuarios():
     
     return True
 
+# ⏯️ Ejecutar al iniciar
 def cargar_prestamos():
     mi_biblioteca.add_prestamo(1,1)
     mi_biblioteca.add_prestamo(2,1)
@@ -29,54 +30,42 @@ def cargar_prestamos():
     mi_biblioteca.add_prestamo(3,1)
     pass
 
-def get_libro():
-    resultado = []
+# ✅🌎
+def get_elemento(entidad, buscar_fn):
+    resultado = None
     while not resultado:
-        libro = input("Buscar libro por nombre o codigo: ")
-        resultado = mi_biblioteca.buscar_libro(libro)
-        if not resultado:
-            print("* No hay resultados en la busqueda.\n")
-    
-    print("\n* Resultados de la busqueda:\n")
-    for libro in resultado:
-        print(libro)
-    
-    libro = 0
-    while not libro:
-        libro_input = int(input("\nindique el id del libro: "))
-        for lib in resultado:
-            if lib.id == libro_input:
-                libro = lib
-        if not libro:
-            print("* no ha seleccionado un elemento del resuldato de la busqueda.\n")
-        return libro
+        texto = input(f"Buscar {entidad}: ")
+        resultado = buscar_fn(texto)
 
-def get_usuario():
-    resultado = []
-    while not resultado:
-        usuario = input("Buscar usuario por nombre o identificacion: ")
-        resultado = mi_biblioteca.buscar_usuario(usuario)
         if not resultado:
-            print("* No hay resultados en la busqueda.\n")
-    
-    print("\n* Resultados de la busqueda:\n")
-    for usuario in resultado:
-        print(usuario)
-    
-    user = 0
-    while not user:
-        usuario_input = int(input("\nindique el id del usuario: "))
-        for usuario in resultado:
-            if usuario.id == usuario_input:
-                user = usuario
-        if not user:
-            print("* no ha seleccionado un elemento del resuldato de la busqueda.\n")
-    return user
-    
+            print(f"* No hay resultados de la busqueda")
+
+    for item in resultado:
+        print(f"{item}")
+
+    while True:
+        try:
+            item_id = int(input(f"\nIndica el id de los resultados: "))
+            
+            item_encontrado = next(item for item in resultado if item.id == item_id)
+            if item_encontrado:
+                return item_encontrado
+            print(" * ID no encontrado")
+        except ValueError:
+            print("⚠️ Debes ingresar un numero valido")    
+
+# ✅🌎
+def ver_elementos(elementos):
+    if elementos:
+        for e in elementos:
+            print(e)
+    else:
+        print("* No hay registros para mostrar")
 
 # ✅📖👁️
 def ver_libros():
-    mi_biblioteca.ver_libros()
+    resultado = mi_biblioteca.ver_libros()
+    ver_elementos(resultado)
 
 # ✅📖🔍
 def buscar_libro() :
@@ -97,7 +86,8 @@ def agregar_nuevo_libro():
 
 # ✅👤👁️
 def ver_usuarios():
-    mi_biblioteca.ver_usuarios()
+    resultado = mi_biblioteca.ver_usuarios()
+    ver_elementos(resultado)
     
 # ✅👤🔍
 def buscar_usuario():
@@ -140,12 +130,12 @@ def ver_prestamos_activos():
         
 # ✅📝➕
 def hacer_prestamo():
-    user = get_usuario()
+    user = get_elemento("usuario", mi_biblioteca.buscar_usuario)
     id_user = user.id
 
-    os.system("cls")
+    os.system("cls" if os.name == "nt" else "clear")
     
-    libro = get_libro()
+    libro = get_elemento("libro", mi_biblioteca.buscar_libro)
     
     respuesta = mi_biblioteca.add_prestamo(libro.id,id_user)
 
@@ -156,9 +146,10 @@ def hacer_prestamo():
     
 # ✅📝❌
 def deshacer_prestamo() :
-    user = get_usuario()
+    user = get_elemento("usuario", mi_biblioteca.buscar_usuario)
 
-    os.system("cls")
+    # os.system("cls")
+    os.system("cls" if os.name == "nt" else "clear")
 
     prestamos_activos = mi_biblioteca.ver_prestamos_user(user.id)
 
@@ -173,12 +164,13 @@ def deshacer_prestamo() :
         while not prestamo_id:
             prestamo_id = int(input("\nIndique el id del prestamo del libro a devolver: "))
 
-            os.system("cls")
+            # os.system("cls")
+            os.system("cls" if os.name == "nt" else "clear")
 
             for prestamo in prestamos_activos:
                 if prestamo.id == prestamo_id:
                     respuesta = mi_biblioteca.remove_prestamo(prestamo.id)
-                    print(f"Devolicion Registrada:\n{respuesta}")
+                    print(f"Devolucion Registrada:\n{respuesta}")
     else :
         print("* El usuario no tiene prestamos activos")
 
@@ -200,7 +192,7 @@ def encabezado(r = 0):
     elif r == 6:
         print("** Buscar usuario 🔎 **\n")
     elif r == 7:
-        print("** Prestar Libro8 📝 **\n")
+        print("** Prestar Libro 📝 **\n")
     elif r == 8:
         print("** Devolver Libro 📝 **\n")
     elif r == 9:
@@ -215,7 +207,8 @@ cargar_usuarios()
 cargar_prestamos()
 
 while True:
-    os.system("cls")
+    # os.system("cls")
+    os.system("cls" if os.name == "nt" else "clear")
     encabezado()
 
     print("\t*** LIBROS 👤👥")
@@ -233,8 +226,13 @@ while True:
     print("\t10. Ver registro de todos los prestamos 📝🔍")
     
 
-    respuesta = int(input(""))
-    os.system("cls")
+    try:
+        respuesta = int(input("* Selecciona una opcion: "))
+    except ValueError:
+        print(f"⚠️* Ingresa una opcion valida")
+
+    # os.system("cls")
+    os.system("cls" if os.name == "nt" else "clear")
     encabezado(respuesta)
 
     if respuesta == 1:
